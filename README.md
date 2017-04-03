@@ -9,10 +9,10 @@ Sensitive data:
 
 - Substitute the 
 
-``
+```
   defaultCert: XXXXXXXXXXXX
   defaultKey: YYYYYYYYYYY 
-``
+```
 
 with your proper base64 values
 
