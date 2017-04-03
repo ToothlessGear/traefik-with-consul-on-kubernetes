@@ -14,7 +14,7 @@ Sensitive data:
   defaultKey: YYYYYYYYYYY 
 ```
 
-with your proper base64 values
+in Secret traefik release resource, with your proper base64 values
 
 You cannot delete namespace networking via helm. This is a persistent volume delete protection. If the
 namespace is deleted via helm, so the PVs. And the client-backup deployment save the backup of the certificates.
