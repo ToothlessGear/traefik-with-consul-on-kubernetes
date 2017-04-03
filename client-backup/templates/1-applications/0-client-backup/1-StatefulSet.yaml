@@ -1,0 +1,42 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: client-backup
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: client-backup
+spec:
+  serviceName: "{{ template "name" . }}"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client-backup
+  template:
+    metadata:
+      labels:
+        app: client-backup
+    spec:
+      containers:
+      - image: {{ .Values.image }}:{{ .Values.imageTag }}
+        imagePullPolicy: Always
+        name: {{ template "name" . }}
+        volumeMounts:
+        - mountPath: "/mnt"
+          name: "client-backup-pv"
+        command:
+        - "sh"
+        - "-c"
+        - "/usr/sbin/crond -f"
+  volumeClaimTemplates:
+  - metadata:
+      name: client-backup-pv
+      annotations:
+        volume.beta.kubernetes.io/storage-class: slow
+        "helm.sh/resource-policy": keep
+    spec:
+      accessModes:
+        - "ReadWriteOnce"
+      resources:
+        requests:
+          storage: 1Gi
+---

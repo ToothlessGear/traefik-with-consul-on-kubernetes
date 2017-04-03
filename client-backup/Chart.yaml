@@ -1,0 +1,15 @@
+apiVersion: v1
+name: client-backup
+version: 0.1.7
+description: Backup of the acme.json base64ized, from a consul backend.
+keywords:
+- traefik
+- ingress
+- acme
+- letsencrypt
+- consul
+- backup
+maintainers:
+- name: Santiago Nunez-Cacho
+  email: santiago.nunezcacho@softonic.com
+engine: gotpl

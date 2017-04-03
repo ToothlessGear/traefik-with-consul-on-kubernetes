@@ -1,0 +1,31 @@
+# Default values for Traefik
+image: traefik
+imageTag: v1.2.1-alpine
+namespace: networking
+serviceType: LoadBalancer
+replicas: 3
+configfile: /config/traefik.toml
+ssl:
+  enabled: true
+  enforced: false
+  defaultCert: XXXXXXXXXXXX
+  defaultKey: YYYYYYYYYYY 
+acme:
+  enabled: true
+  email: test@test.com
+  staging: false
+  onDemand: true
+servicewebui:
+  annotations:
+    key: value
+    kubernetes.io/cluster-service: true
+    kubernetes.io/name: "Traefik"
+  # labels:
+  #   key: value
+gzip:
+  enabled: false
+consul:
+  enabled: true
+  endpoint: "traefik-consul:8500"
+  watch: true
+  prefix: traefik

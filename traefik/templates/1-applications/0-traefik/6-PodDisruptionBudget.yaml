@@ -1,0 +1,9 @@
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: traefik-consul-budget
+spec:
+  selector:
+    matchLabels:
+      app: traefik-consul
+  minAvailable: 2

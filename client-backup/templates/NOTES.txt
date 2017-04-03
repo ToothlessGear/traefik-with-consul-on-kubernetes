@@ -1,0 +1,22 @@
+1. Get the backup acme.json certificates in base64 format. 
+
+         $ kubectl exec -n networking -t -i `kubectl get pods -l app=client-backup  -o name -n networking | cut -d '/' -f 2` -- ls -lrta /mnt/
+
+2. Get the last object.bak-* with data, you can try last hour dump
+
+         $ kubectl exec -n networking -t -i `kubectl get pods -l app=client-backup  -o name -n networking | cut -d '/' -f 2` -- cat  /mnt/object.bak-`date -v -1H "+%Y%m%d%H"` > object.bak
+
+	 or 2 hours ago
+
+         $ kubectl exec -n networking -t -i `kubectl get pods -l app=client-backup  -o name -n networking | cut -d '/' -f 2` -- cat  /mnt/object.bak-`date -v -2H "+%Y%m%d%H"` > object.bak
+
+         $ tr -d '\n' < object.bak > output.txt
+         $ kubectl cp output.txt traefik-consul-0:/tmp/output.txt -n networking
+
+3. Import the acme in the consul cluster
+
+         $ kubectl exec -n networking -t -i traefik-consul-0 -- sh -c 'consul kv put traefik/acme/account/object @/tmp/output.txt'
+
+4. Clean inappropiate key/value
+
+         $ kubectl --namespace networking exec -it traefik-consul-0 consul kv delete traefik/acme/storagefile

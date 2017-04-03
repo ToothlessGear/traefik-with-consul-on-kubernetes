@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: traefik-kv-job
+  namespace: {{ .Values.namespace }}
+spec:
+  template:
+    metadata:
+      name: traefik-kv-jobs
+    spec:
+      containers:
+        - image: {{ .Values.image }}:{{ .Values.imageTag }}
+          name: {{ template "name" . }}
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: "/config"
+              name: "config"
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+            - containerPort: 8080
+          args:
+            - storeconfig
+            - --configfile={{ .Values.configfile }}
+            - --retry
+      volumes:
+        - name: config
+          configMap:
+            name: {{ template "name" . }}-conf
+      restartPolicy: OnFailure

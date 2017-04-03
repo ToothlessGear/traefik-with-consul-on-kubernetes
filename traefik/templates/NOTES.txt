@@ -1,0 +1,10 @@
+INSTALL NOTES
+
+
+1. Install helm client-backup release and follow the instructions to import certificates
+
+2. Get Traefik's load balancer IP/hostname:
+
+         $ kubectl get svc traefik --namespace networking -w
+
+3. Configure DNS records corresponding to Kubernetes resources to point to the load balancer IP/hostname found in step 1 ( EXTERNAL-IP )
